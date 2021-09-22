@@ -8,11 +8,17 @@ import {
   Toolbar,
   IconButton,
   makeStyles,
+  useMediaQuery,
+  SwipeableDrawer,
+  List,
+  ListItem,
+  ListItemText,
 } from "@material-ui/core"
 
 import search from "../../images/search.svg"
 import cart from "../../images/cart.svg"
 import account from "../../images/account-header.svg"
+import menu from "../../images/menu.svg"
 
 const useStyles = makeStyles(theme => ({
   coloredIndicator: {
@@ -33,6 +39,28 @@ const Header = ({ categories }) => {
     { node: { name: "Contact Us", strapiId: "contact" } },
   ]
   const classes = useStyles()
+  const matchesMd = useMediaQuery(theme => theme.breakpoints.down("md"))
+
+  const tabs = (
+    <Tabs
+      value={0}
+      classes={{ indicator: classes.coloredIndicator, root: classes.tabs }}
+    >
+      {routes.map((route, i) => (
+        <Tab key={route.node.strapiId} label={route.node.name} />
+      ))}
+    </Tabs>
+  )
+
+  const drawer = (
+    <SwipeableDrawer>
+      <List disablePadding>
+        <ListItem>
+          <ListItemText />
+        </ListItem>
+      </List>
+    </SwipeableDrawer>
+  )
 
   return (
     <AppBar color="transparent" elevation={0}>
@@ -43,14 +71,7 @@ const Header = ({ categories }) => {
             <span className={classes.logoText}>Var</span> X
           </Typography>
         </Button>
-        <Tabs
-          value={0}
-          classes={{ indicator: classes.coloredIndicator, root: classes.tabs }}
-        >
-          {routes.map((route, i) => (
-            <Tab key={route.node.strapiId} label={route.node.name} />
-          ))}
-        </Tabs>
+        {matchesMd ? null : tabs}
         <IconButton>
           <img src={search} alt="search" />
         </IconButton>
