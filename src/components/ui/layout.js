@@ -12,18 +12,23 @@ import Header from "./header"
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
+    query categories {
+      allStrapiCategory {
+        edges {
+          node {
+            name
+            strapiId
+          }
         }
       }
     }
   `)
 
+  // console.log(data.allStrapiCategory.edges)
+
   return (
     <>
-      <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
+      <Header categories={data.allStrapiCategory.edges} />
       <div
         style={{
           margin: `0 auto`,

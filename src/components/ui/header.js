@@ -27,7 +27,11 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const Header = () => {
+const Header = ({ categories }) => {
+  const routes = [
+    ...categories,
+    { node: { name: "Contact Us", strapiId: "contact" } },
+  ]
   const classes = useStyles()
 
   return (
@@ -43,10 +47,9 @@ const Header = () => {
           value={0}
           classes={{ indicator: classes.coloredIndicator, root: classes.tabs }}
         >
-          <Tab label="Hats" />
-          <Tab label="Hoodies" />
-          <Tab label="Shirts" />
-          <Tab label="Contact Us" />
+          {routes.map((route, i) => (
+            <Tab key={route.node.strapiId} label={route.node.name} />
+          ))}
         </Tabs>
         <IconButton>
           <img src={search} alt="search" />
