@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   Button,
   Typography,
@@ -38,6 +38,9 @@ const Header = ({ categories }) => {
     ...categories,
     { node: { name: "Contact Us", strapiId: "contact" } },
   ]
+
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
   const classes = useStyles()
   const matchesMd = useMediaQuery(theme => theme.breakpoints.down("md"))
 
@@ -53,11 +56,17 @@ const Header = ({ categories }) => {
   )
 
   const drawer = (
-    <SwipeableDrawer>
+    <SwipeableDrawer
+      open={drawerOpen}
+      onOpen={() => setDrawerOpen(true)}
+      onClose={() => setDrawerOpen(false)}
+    >
       <List disablePadding>
-        <ListItem>
-          <ListItemText />
-        </ListItem>
+        {routes.map(route => (
+          <ListItem divider button key={route.node.strapiId}>
+            <ListItemText primary={route.node.name} />
+          </ListItem>
+        ))}
       </List>
     </SwipeableDrawer>
   )
@@ -71,15 +80,18 @@ const Header = ({ categories }) => {
             <span className={classes.logoText}>Var</span> X
           </Typography>
         </Button>
-        {matchesMd ? null : tabs}
+        {matchesMd ? drawer : tabs}
         <IconButton>
           <img src={search} alt="search" />
         </IconButton>
         <IconButton>
           <img src={cart} alt="cart" />
         </IconButton>
-        <IconButton>
-          <img src={account} alt="account" />
+        <IconButton onClick={() => (matchesMd ? setDrawerOpen(true) : null)}>
+          <img
+            src={matchesMd ? menu : account}
+            alt={matchesMd ? "menu" : "account"}
+          />
         </IconButton>
       </Toolbar>
     </AppBar>
