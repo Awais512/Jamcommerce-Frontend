@@ -65,7 +65,7 @@ const Header = ({ categories }) => {
       value={0}
       classes={{ indicator: classes.coloredIndicator, root: classes.tabs }}
     >
-      {routes.map((route, i) => (
+      {routes.map(route => (
         <Tab
           component={Link}
           to={route.node.link || `/${route.node.name.toLowerCase()}`}
@@ -86,7 +86,13 @@ const Header = ({ categories }) => {
     >
       <List disablePadding>
         {routes.map(route => (
-          <ListItem divider button key={route.node.strapiId}>
+          <ListItem
+            component={Link}
+            to={route.node.link || `/${route.node.name.toLowerCase()}`}
+            divider
+            button
+            key={route.node.strapiId}
+          >
             <ListItemText
               classes={{ primary: classes.listItemText }}
               primary={route.node.name}
@@ -98,7 +104,12 @@ const Header = ({ categories }) => {
   )
 
   const actions = [
-    { icon: search, alt: "search", visible: true },
+    {
+      icon: search,
+      alt: "search",
+      visible: true,
+      onClick: () => console.log("Search"),
+    },
     { icon: cart, alt: "cart", visible: true, link: "/cart" },
     { icon: account, alt: "account", visible: !matchesMd, link: "/account" },
     {
@@ -112,7 +123,11 @@ const Header = ({ categories }) => {
   return (
     <AppBar color="transparent" elevation={0}>
       <Toolbar>
-        <Button classes={{ root: classes.logoContainer }}>
+        <Button
+          component={Link}
+          to="/"
+          classes={{ root: classes.logoContainer }}
+        >
           <Typography variant="h1">
             {" "}
             <span className={classes.logoText}>Var</span> X
@@ -122,12 +137,13 @@ const Header = ({ categories }) => {
         {actions.map((action, i) => {
           if (action.visible) {
             return (
-              <IconButton component={Link} to={action.link}>
-                <img
-                  src={action.icon}
-                  alt={action.alt}
-                  onClick={action.onClick}
-                />
+              <IconButton
+                key={i}
+                onClick={action.onClick}
+                component={action.onClick ? undefined : Link}
+                to={action.onClick ? undefined : action.link}
+              >
+                <img src={action.icon} alt={action.alt} />
               </IconButton>
             )
           }
