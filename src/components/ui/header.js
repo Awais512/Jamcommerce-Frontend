@@ -60,9 +60,25 @@ const Header = ({ categories }) => {
   const classes = useStyles()
   const matchesMd = useMediaQuery(theme => theme.breakpoints.down("md"))
 
+  const activeIndex = () => {
+    const pathname =
+      typeof window !== "undefined"
+        ? window.location.pathname.split("/")[1]
+        : null
+
+    const found = routes.indexOf(
+      routes.filter(
+        ({ node: { name, link } }) =>
+          (link || `/${name.toLowerCase()}`) === `/${pathname}`
+      )[0]
+    )
+
+    return found === -1 ? false : found
+  }
+
   const tabs = (
     <Tabs
-      value={0}
+      value={activeIndex()}
       classes={{ indicator: classes.coloredIndicator, root: classes.tabs }}
     >
       {routes.map(route => (
@@ -85,8 +101,9 @@ const Header = ({ categories }) => {
       classes={{ paper: classes.drawer }}
     >
       <List disablePadding>
-        {routes.map(route => (
+        {routes.map((route, i) => (
           <ListItem
+            selected={activeIndex() === i}
             component={Link}
             to={route.node.link || `/${route.node.name.toLowerCase()}`}
             divider
