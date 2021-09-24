@@ -11,7 +11,8 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     width: "100%",
-    height: "120rem",
+    height: "180rem",
+    padding: "0 2.5rem",
   },
   featured: {
     height: "20rem",
@@ -23,8 +24,19 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     borderRadius: 0,
-    height: "25rem",
+    height: "24.8rem",
     width: "25rem",
+    boxSizing: "border-box",
+    boxShadow: theme.shadows[5],
+    position: "absolute",
+  },
+  slide: {
+    backgroundColor: theme.palette.primary.main,
+    height: "20rem",
+    width: "24.5rem",
+  },
+  productContainer: {
+    margin: "5rem 0",
   },
 }))
 
@@ -52,23 +64,45 @@ const FeaturedProducts = () => {
 
   console.log(data)
   return (
-    <Grid container direction="column" classes={{ root: classes.background }}>
-      {data.allStrapiProduct.edges.map(({ node }, i) => (
-        <Grid item container key={node.strapiId}>
-          <Grid item>
-            <IconButton classes={{ root: classes.frame }}>
-              <img
-                className={classes.featured}
-                src={"http://localhost:1337" + node.variants[0].images[0].url}
-                alt={node.name}
-              />
-            </IconButton>
-            {/* <Grid container direction='column'>
-
-                  </Grid> */}
+    <Grid
+      container
+      direction="column"
+      justifyContent="center"
+      classes={{ root: classes.background }}
+    >
+      {data.allStrapiProduct.edges.map(({ node }, i) => {
+        const alignment =
+          i === 0 || i === 3
+            ? "flex-start"
+            : i === 1 || i === 4
+            ? "center"
+            : "flex-end"
+        return (
+          <Grid
+            item
+            container
+            justifyContent={alignment}
+            key={node.strapiId}
+            classes={{ root: classes.productContainer }}
+            alignItems="center"
+          >
+            <>
+              <IconButton classes={{ root: classes.frame }}>
+                <img
+                  className={classes.featured}
+                  src={"http://localhost:1337" + node.variants[0].images[0].url}
+                  alt={node.name}
+                />
+              </IconButton>
+              <Grid
+                container
+                direction="column"
+                classes={{ root: classes.slide }}
+              ></Grid>
+            </>
           </Grid>
-        </Grid>
-      ))}
+        )
+      })}
     </Grid>
   )
 }
