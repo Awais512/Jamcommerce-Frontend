@@ -101,10 +101,27 @@ export default function PromotionalProducts() {
     }
   `)
 
+  var slides = [
+    { key: 1, content: <div>First Slide</div> },
+    { key: 2, content: <div>Second Slide</div> },
+    { key: 3, content: <div>Third Slide</div> },
+  ]
+  //   data.allStrapiProduct.edges.map(({node})=>)
   console.log(data)
-  const isBrowser = typeof window !== "undefined"
   const [selectedSlide, setSelectedSlide] = useState(0)
 
   const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
-  return <h1>Promo Products</h1>
+  return (
+    <Grid
+      container
+      justifyContent="space-between"
+      alignItems="center"
+      classes={{ root: classes.mainContainer }}
+    >
+      <Grid item>
+        <Carousel slides={slides} goToSlide={selectedSlide} />
+      </Grid>
+      <Grid item>Description</Grid>
+    </Grid>
+  )
 }
