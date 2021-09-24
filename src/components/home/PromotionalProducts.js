@@ -82,17 +82,28 @@ const useStyles = makeStyles(theme => ({
 
 export default function PromotionalProducts() {
   const classes = useStyles()
+  const [selectedSlide, setSelectedSlide] = useState(0)
+
+  const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
+
   const data = useStaticQuery(graphql`
     query GetPromo {
       allStrapiProduct(filter: { promo: { eq: true } }) {
         edges {
           node {
-            strapiId
             name
+            strapiId
             description
+            category {
+              name
+            }
             variants {
               images {
-                url
+                localFile {
+                  childImageSharp {
+                    gatsbyImageData
+                  }
+                }
               }
             }
           }
@@ -101,27 +112,71 @@ export default function PromotionalProducts() {
     }
   `)
 
-  var slides = [
-    { key: 1, content: <div>First Slide</div> },
-    { key: 2, content: <div>Second Slide</div> },
-    { key: 3, content: <div>Third Slide</div> },
-  ]
-  //   data.allStrapiProduct.edges.map(({node})=>)
-  console.log(data)
-  const [selectedSlide, setSelectedSlide] = useState(0)
+  var slides = []
 
-  const matchesMD = useMediaQuery(theme => theme.breakpoints.down("md"))
+  data.allStrapiProduct.edges.map(({ node }, i) => {
+    const image = getImage(node.variants[0].images[0].localFile)
+
+    return slides.push({
+      key: i,
+      content: (
+        <Grid container direction="column" alignItems="center">
+          <Grid item>
+            <IconButton
+              disableRipple
+              onClick={() => setSelectedSlide(i)}
+              classes={{
+                root: clsx(classes.iconButton, {
+                  [classes.space]: selectedSlide !== i,
+                }),
+              }}
+            >
+              <GatsbyImage
+                image={image}
+                alt={`image-${i}`}
+                className={classes.carouselImage}
+                objectFit="contain"
+              />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            {selectedSlide === i ? (
+              <Typography variant="h1" classes={{ root: classes.productName }}>
+                {node.category.name.toLowerCase()}
+              </Typography>
+            ) : null}
+          </Grid>
+        </Grid>
+      ),
+      description: node.description,
+      url: `/${node.category.name.toLowerCase()}`,
+    })
+  })
+
   return (
     <Grid
       container
-      justifyContent="space-between"
+      justify={matchesMD ? "space-around" : "space-between"}
       alignItems="center"
       classes={{ root: classes.mainContainer }}
+      direction={matchesMD ? "column" : "row"}
     >
-      <Grid item>
-        <Carousel slides={slides} goToSlide={selectedSlide} />
+      <Grid item classes={{ root: classes.carouselContainer }}>
+        {typeof window !== "undefined" ? (
+          <Carousel slides={slides} goToSlide={selectedSlide} />
+        ) : null}
       </Grid>
-      <Grid item>Description</Grid>
+      <Grid item classes={{ root: classes.descriptionContainer }}>
+        <Typography variant="h2" paragraph>
+          {slides[selectedSlide].description}
+        </Typography>
+        <Button component={Link} to={slides[selectedSlide].url}>
+          <Typography variant="h4" classes={{ root: classes.explore }}>
+            Explore
+          </Typography>
+          <img src={explore} alt="go to product page" />
+        </Button>
+      </Grid>
     </Grid>
   )
 }
