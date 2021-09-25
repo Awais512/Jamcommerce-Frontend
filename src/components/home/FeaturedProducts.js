@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
 import { Grid, Typography, IconButton, makeStyles } from "@material-ui/core"
+import clsx from "clsx"
 import { useStaticQuery, graphql } from "gatsby"
 import featuredAdornment from "../../images/featured-adornment.svg"
 import frame from "../../images/product-frame-grid.svg"
@@ -29,11 +30,20 @@ const useStyles = makeStyles(theme => ({
     boxSizing: "border-box",
     boxShadow: theme.shadows[5],
     position: "absolute",
+    zIndex: 1,
   },
   slide: {
     backgroundColor: theme.palette.primary.main,
     height: "20rem",
     width: "24.5rem",
+    transition: "transform 0.5s ease",
+    zIndex: 0,
+  },
+  slideLeft: {
+    transform: "translate(-24.5rem, 0px)",
+  },
+  slideRight: {
+    transform: "translate(24.5rem, 0px)",
   },
   productContainer: {
     margin: "5rem 0",
@@ -61,6 +71,7 @@ const FeaturedProducts = () => {
   `)
 
   const classes = useStyles()
+  const [expanded, setExpanded] = useState(null)
 
   console.log(data)
   return (
@@ -87,7 +98,12 @@ const FeaturedProducts = () => {
             alignItems="center"
           >
             <>
-              <IconButton classes={{ root: classes.frame }}>
+              <IconButton
+                classes={{ root: classes.frame }}
+                onClick={() =>
+                  expanded === i ? setExpanded(null) : setExpanded(i)
+                }
+              >
                 <img
                   className={classes.featured}
                   src={"http://localhost:1337" + node.variants[0].images[0].url}
@@ -97,7 +113,15 @@ const FeaturedProducts = () => {
               <Grid
                 container
                 direction="column"
-                classes={{ root: classes.slide }}
+                classes={{
+                  root: clsx(classes.slide, {
+                    [classes.slideLeft]:
+                      expanded === i && alignment === "flex-end",
+                    [classes.slideRight]:
+                      expanded === i &&
+                      (alignment === "flex-start" || alignment === "center"),
+                  }),
+                }}
               ></Grid>
             </>
           </Grid>
