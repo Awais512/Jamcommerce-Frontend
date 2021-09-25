@@ -1,9 +1,19 @@
 import React, { useState } from "react"
-import { Grid, Typography, IconButton, makeStyles } from "@material-ui/core"
+import {
+  Grid,
+  Typography,
+  IconButton,
+  makeStyles,
+  Button,
+  Chip,
+} from "@material-ui/core"
 import clsx from "clsx"
 import { useStaticQuery, graphql } from "gatsby"
 import featuredAdornment from "../../images/featured-adornment.svg"
 import frame from "../../images/product-frame-grid.svg"
+import explore from "../../images/explore.svg"
+
+import Rating from "./Rating"
 
 const useStyles = makeStyles(theme => ({
   background: {
@@ -38,6 +48,7 @@ const useStyles = makeStyles(theme => ({
     width: "24.5rem",
     transition: "transform 0.5s ease",
     zIndex: 0,
+    padding: "1rem 2rem",
   },
   slideLeft: {
     transform: "translate(-24.5rem, 0px)",
@@ -47,6 +58,22 @@ const useStyles = makeStyles(theme => ({
   },
   productContainer: {
     margin: "5rem 0",
+  },
+  exploreContainer: {
+    marginTop: "auto",
+  },
+  exploreButton: {
+    textTransform: "none",
+  },
+  exploreIcon: {
+    height: "1.5rem",
+    marginLeft: "1rem",
+  },
+  chipLabel: {
+    ...theme.typography.h5,
+  },
+  chipRoot: {
+    backgroundColor: theme.palette.secondary,
   },
 }))
 
@@ -122,7 +149,35 @@ const FeaturedProducts = () => {
                       (alignment === "flex-start" || alignment === "center"),
                   }),
                 }}
-              ></Grid>
+              >
+                <Grid item>
+                  <Typography variant="h4">
+                    {node.name.split(" ")[0]}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Rating number={2.5} />
+                </Grid>
+                <Grid item>
+                  <Chip
+                    classes={{
+                      root: classes.chipRoot,
+                      label: classes.chipLabel,
+                    }}
+                    label={`$${node.variants[0].price}`}
+                  />
+                </Grid>
+                <Grid item classes={{ root: classes.exploreContainer }}>
+                  <Button classes={{ root: classes.exploreButton }}>
+                    <Typography variant="h5">Details</Typography>
+                    <img
+                      className={classes.exploreIcon}
+                      src={explore}
+                      alt="Go to Product Details"
+                    />
+                  </Button>
+                </Grid>
+              </Grid>
             </>
           </Grid>
         )
