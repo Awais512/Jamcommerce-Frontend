@@ -120,7 +120,6 @@ const FeaturedProducts = () => {
   const [expanded, setExpanded] = useState(null)
   const matchesMd = useMediaQuery(theme => theme.breakpoints.down("md"))
 
-  console.log(data)
   return (
     <Grid
       container
