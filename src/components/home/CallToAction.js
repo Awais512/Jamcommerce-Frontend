@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   icon: {
     [theme.breakpoints.down("xs")]: {
       height: "18rem",
-      width: "20rem",
+      width: "18rem",
     },
   },
 }))
@@ -51,7 +51,7 @@ export default function CallToAction() {
   return (
     <Grid
       container
-      justify="space-around"
+      justifyContent="space-around"
       alignItems="center"
       classes={{ root: classes.container }}
       direction={matchesMD ? "column" : "row"}
