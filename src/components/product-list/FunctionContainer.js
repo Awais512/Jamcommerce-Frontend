@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import { Grid, Typography, IconButton, makeStyles } from "@material-ui/core"
 import filter from "../../images/filter.svg"
 import sort from "../../images/sort.svg"
+import Sort from "./Sort"
 
 const useStyles = makeStyles(theme => ({
   functionContainer: {
@@ -32,13 +33,15 @@ const FunctionContainer = () => {
           >
             {items.map(item => (
               <Grid item key={item.alt}>
-                <IconButton>
+                <IconButton onClick={() => setOption(item.alt)}>
                   <img src={item.icon} alt={item.alt} />
                 </IconButton>
               </Grid>
             ))}
           </Grid>
         )
+      case "sort":
+        return <Sort setOption={setOption} />
       default:
         return null
     }
