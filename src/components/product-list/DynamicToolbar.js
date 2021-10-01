@@ -1,5 +1,6 @@
 import React from "react"
 import { Grid, Typography, makeStyles } from "@material-ui/core"
+import FunctionContainer from "./FunctionContainer"
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -13,12 +14,9 @@ const useStyles = makeStyles(theme => ({
 const DynamicToolbar = () => {
   const classes = useStyles()
   return (
-    <Grid
-      item
-      container
-      direction="column"
-      classes={{ root: classes.toolbar }}
-    ></Grid>
+    <Grid item container direction="column" classes={{ root: classes.toolbar }}>
+      <FunctionContainer />
+    </Grid>
   )
 }
 
