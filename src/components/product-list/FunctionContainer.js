@@ -11,13 +11,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.primary.main,
     minHeight: "6rem",
     height: "auto",
-    borderRadius: "10px 10px 0px 0px",
+    borderRadius: ({ option }) =>
+      option !== null ? "10px " : "10px 10px 0px 0px",
   },
 }))
 
-const FunctionContainer = ({ filterOptions }) => {
-  const [option, setOption] = useState(null)
-  const classes = useStyles()
+const FunctionContainer = ({ filterOptions, option, setOption }) => {
+  const classes = useStyles({ option })
 
   const content = () => {
     switch (option) {
