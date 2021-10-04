@@ -11,7 +11,6 @@ const ProductList = ({
     allStrapiProduct: { edges: products },
   },
 }) => {
-  console.log(products)
   return (
     <Layout>
       <Grid container direction="column" alignItems="center">
