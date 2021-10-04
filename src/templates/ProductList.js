@@ -3,12 +3,15 @@ import Layout from "../components/ui/layout"
 import { Grid } from "@material-ui/core"
 import { graphql } from "gatsby"
 import DynamicToolbar from "../components/product-list/DynamicToolbar"
+import ListOfProducts from "../components/product-list/ListOfProducts"
 
 const ProductList = ({
   pageContext: { filterOptions, name, description },
-  data,
+  data: {
+    allStrapiProduct: { edges: products },
+  },
 }) => {
-  console.log(data)
+  console.log(products)
   return (
     <Layout>
       <Grid container direction="column" alignItems="center">
@@ -17,6 +20,7 @@ const ProductList = ({
           name={name}
           description={description}
         />
+        <ListOfProducts products={products} />
       </Grid>
     </Layout>
   )
