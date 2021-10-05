@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
 import { Grid, Typography, makeStyles } from "@material-ui/core"
 import frame from "../../images/product-frame-grid.svg"
+import QuickView from "./QuickView"
 
 const useStyles = makeStyles(theme => ({
   frame: {
@@ -26,18 +27,21 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     alignItems: "center",
     marginTop: "-0.1rem",
-    marginBottom: "5rem",
   },
 }))
 
 const ProductFrameGrid = ({ product, variant }) => {
   const classes = useStyles()
+  const [open, setOpen] = useState(false)
+
+  const imgUrl = `http://localhost:1337${variant.images[0].url}`
+
   return (
     <Grid item>
-      <Grid container direction="column">
+      <Grid container direction="column" onClick={() => setOpen(true)}>
         <Grid item classes={{ root: classes.frame }}>
           <img
-            src={`http://localhost:1337${variant.images[0].url}`}
+            src={imgUrl}
             alt={product.node.name}
             className={classes.product}
           />
@@ -48,6 +52,7 @@ const ProductFrameGrid = ({ product, variant }) => {
           </Typography>
         </Grid>
       </Grid>
+      <QuickView open={open} setOpen={setOpen} url={imgUrl} />
     </Grid>
   )
 }
