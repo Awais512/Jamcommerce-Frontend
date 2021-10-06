@@ -35,6 +35,7 @@ const ProductFrameGrid = ({ product, variant }) => {
   const [open, setOpen] = useState(false)
 
   const imgUrl = `http://localhost:1337${variant.images[0].url}`
+  const productName = product.node.name.split(" ")[0]
 
   return (
     <Grid item>
@@ -47,12 +48,15 @@ const ProductFrameGrid = ({ product, variant }) => {
           />
         </Grid>
         <Grid item classes={{ root: classes.title }}>
-          <Typography variant="h5">
-            {product.node.name.split(" ")[0]}
-          </Typography>
+          <Typography variant="h5">{productName}</Typography>
         </Grid>
       </Grid>
-      <QuickView open={open} setOpen={setOpen} url={imgUrl} />
+      <QuickView
+        open={open}
+        setOpen={setOpen}
+        url={imgUrl}
+        name={productName}
+      />
     </Grid>
   )
 }

@@ -5,7 +5,10 @@ import {
   Dialog,
   DialogContent,
   makeStyles,
+  Button,
+  Chip,
 } from "@material-ui/core"
+import Rating from "../home/Rating"
 import frame from "../../images/selected-frame.svg"
 import explore from "../../images/explore.svg"
 
@@ -28,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: {
     backgroundColor: theme.palette.primary.main,
-    height: "13rem",
+    height: "15rem",
     marginTop: "2rem",
     padding: "0.5rem 1rem",
     position: "relative",
@@ -73,8 +76,9 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const QuickView = ({ open, setOpen, url }) => {
+const QuickView = ({ open, setOpen, url, name }) => {
   const classes = useStyles()
+
   return (
     <Dialog
       classes={{ paper: classes.dialog }}
@@ -90,6 +94,69 @@ const QuickView = ({ open, setOpen, url }) => {
               className={classes.productImage}
             />
           </Grid>
+          <Grid
+            item
+            container
+            justifyContent="center"
+            classes={{ root: classes.toolbar }}
+          >
+            <Grid item classes={{ root: classes.infoItem }}>
+              <Grid
+                container
+                direction="column"
+                justify="space-between"
+                classes={{ root: classes.infoContainer }}
+              >
+                <Grid item>
+                  <Typography variant="h4">{name}</Typography>
+                  <Rating number={4} />
+                </Grid>
+                <Grid item>
+                  <Typography variant="h3" classes={{ root: classes.stock }}>
+                    12 Currently in Stock
+                  </Typography>
+                  <Button classes={{ root: classes.detailButton }}>
+                    <Typography
+                      variant="h3"
+                      classes={{ root: classes.details }}
+                    >
+                      Details
+                    </Typography>
+                    <img
+                      src={explore}
+                      className={classes.exploreIcon}
+                      alt="go to product details"
+                    />
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+            {/* <Grid item classes={{ root: classes.chipContainer }}>
+              <Chip label={`$20`} classes={{ root: classes.chipRoot }} />
+            </Grid> */}
+            <Grid item classes={{ root: classes.actionsItem }}>
+              <Grid container direction="column">
+                {/* <Sizes
+                  sizes={'S'}
+                  selectedSize={selectedSize}
+                  setSelectedSize={setSelectedSize}
+                />
+                <Swatches
+                  selectedColor={selectedColor}
+                  setSelectedColor={setSelectedColor}
+                  colors={colors}
+                /> */}
+                {/* <span className={classes.qtyContainer}>
+                  <QtyButton
+                    variants={product.node.variants}
+                    name={name}
+                    stock={stock}
+                    selectedVariant={selectedVariant}
+                  />
+                </span> */}
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
       </DialogContent>
     </Dialog>
@@ -97,3 +164,24 @@ const QuickView = ({ open, setOpen, url }) => {
 }
 
 export default QuickView
+
+// return (
+//     <Dialog
+//       classes={{ paper: classes.dialog }}
+//       open={open}
+//       onClose={() => setOpen(false)}
+//     >
+//       <DialogContent classes={{ root: classes.selectedFrame }}>
+//         <Grid container direction="column" alignItems="center">
+//           <Grid item>
+//             <img
+//               src={url}
+//               alt="Product Image"
+//               className={classes.productImage}
+//             />
+//           </Grid>
+//           <Grid item container classes={{ root: classes.toolbar }}></Grid>
+//         </Grid>
+//       </DialogContent>
+//     </Dialog>
+//   )
