@@ -56,6 +56,7 @@ const ProductFrameGrid = ({ product, variant }) => {
         setOpen={setOpen}
         url={imgUrl}
         name={productName}
+        price={variant.price}
       />
     </Grid>
   )

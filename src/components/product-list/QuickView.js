@@ -76,7 +76,7 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const QuickView = ({ open, setOpen, url, name }) => {
+const QuickView = ({ open, setOpen, url, name, price }) => {
   const classes = useStyles()
 
   return (
@@ -131,9 +131,9 @@ const QuickView = ({ open, setOpen, url, name }) => {
                 </Grid>
               </Grid>
             </Grid>
-            {/* <Grid item classes={{ root: classes.chipContainer }}>
-              <Chip label={`$20`} classes={{ root: classes.chipRoot }} />
-            </Grid> */}
+            <Grid item classes={{ root: classes.chipContainer }}>
+              <Chip label={price} classes={{ root: classes.chipRoot }} />
+            </Grid>
             <Grid item classes={{ root: classes.actionsItem }}>
               <Grid container direction="column">
                 {/* <Sizes
