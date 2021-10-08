@@ -76,8 +76,12 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const QuickView = ({ open, setOpen, url, name, price }) => {
+const QuickView = ({ open, setOpen, url, name, price, product }) => {
   const classes = useStyles()
+  var sizes = []
+  product.node.variants.map(variant => sizes.push(variant.size))
+
+  console.log(sizes)
 
   return (
     <Dialog
@@ -140,20 +144,20 @@ const QuickView = ({ open, setOpen, url, name, price }) => {
                   sizes={'S'}
                   selectedSize={selectedSize}
                   setSelectedSize={setSelectedSize}
-                />
-                <Swatches
+                /> */}
+                {/* <Swatches
                   selectedColor={selectedColor}
                   setSelectedColor={setSelectedColor}
                   colors={colors}
-                /> */}
-                {/* <span className={classes.qtyContainer}>
+                /> 
+                 <span className={classes.qtyContainer}>
                   <QtyButton
                     variants={product.node.variants}
                     name={name}
                     stock={stock}
                     selectedVariant={selectedVariant}
                   />
-                </span> */}
+                </span>  */}
               </Grid>
             </Grid>
           </Grid>
