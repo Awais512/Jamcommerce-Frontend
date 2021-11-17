@@ -11,6 +11,7 @@ import {
 import Rating from "../home/Rating"
 import frame from "../../images/selected-frame.svg"
 import explore from "../../images/explore.svg"
+import Sizes from "./Sizes"
 
 const useStyles = makeStyles(theme => ({
   selectedFrame: {
@@ -140,11 +141,7 @@ const QuickView = ({ open, setOpen, url, name, price, product }) => {
             </Grid>
             <Grid item classes={{ root: classes.actionsItem }}>
               <Grid container direction="column">
-                {/* <Sizes
-                  sizes={'S'}
-                  selectedSize={selectedSize}
-                  setSelectedSize={setSelectedSize}
-                /> */}
+                <Sizes sizes={sizes} />
                 {/* <Swatches
                   selectedColor={selectedColor}
                   setSelectedColor={setSelectedColor}
